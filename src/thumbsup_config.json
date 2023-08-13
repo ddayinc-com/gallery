@@ -1,0 +1,10 @@
+{
+    "input": "./recordsImages/",
+    "theme-path": "./thumbsuptheme-cards_mtb",
+    "output": "../siteContents/records",
+    "photo-download": "copy",
+    "sort-albums-by": "title",
+    "thumb-size": "256",
+    "small-size": "480",
+    "title": "Records"
+}
