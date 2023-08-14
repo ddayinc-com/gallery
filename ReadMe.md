@@ -1,5 +1,7 @@
 # Images Galleries for D-Day, Inc
-Some things for making the iamge galleries at D-Day, Inc.
+[![GHPages Deploy](https://github.com/ddayinc-com/gallery/actions/workflows/DeployStaticSite.yaml/badge.svg)](https://github.com/ddayinc-com/gallery/actions/workflows/DeployStaticSite.yaml)
+
+Some things for making the image galleries at D-Day, Inc.
 
 ## Deployment
 Eventually creates `siteContents/` folder with gallery contents for publishing to \<hosting destination>.
@@ -17,4 +19,6 @@ node node_modules/thumbsup/bin/thumbsup.js --config thumbsup_config.json
 docker run --tty --volume "$(pwd):/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config ./thumbsup_config.json
 ```
 
-These result in said `/siteContents/` folder full of gallery things, which can then be used for subsequent deployment actions, like a GitHub Action GitHub Pages deployment
+These result in said `/siteContents/` folder full of gallery things, which can then be used for subsequent deployment actions, like a GitHub Action GitHub Pages deployment.
+
+The [.github/workflows/](./.github/workflows/) workflow does the generation, deployment, etc 👍
