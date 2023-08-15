@@ -41,8 +41,8 @@ jobs:
           docker run --tty --volume "${env:GITHUB_WORKSPACE}:/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config ./thumbsup_config.json
       - name: Cleanup some thumbsup files
         run: |
-          ## setting file attributes to Normal so as to be able to remove files
-          Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log | Foreach-Object {$_.Attributes = [System.IO.FileAttributes]::Normal; $_} | Remove-Item -Verbose
+          ## move some files out of the siteContents folder, so as to not publish them
+          Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log | Foreach-Object {Move-Item -Path $_.FullName -Destination . -Verbose}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload Pages artifact
