@@ -38,7 +38,7 @@ jobs:
       - name: Generate thumbsup static gallery
         run: |
           ## ${env:GITHUB_WORKSPACE} should be the current working directory after the 'checkout' Action runs (and is the root of the checked-out repo); src/ subfolder will become the working directory for the container command
-          docker run --tty --volume "${env:GITHUB_WORKSPACE}:/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config ./thumbsup_config.json
+          docker run --volume "${env:GITHUB_WORKSPACE}:/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config ./thumbsup_config.json
       - name: Cleanup some thumbsup files
         run: |
           ## move some files out of the siteContents folder, so as to not publish them
