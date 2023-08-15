@@ -43,7 +43,7 @@ jobs:
         run: |
           ## remove some files out of the siteContents folder, so as to not publish them
           Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log
-          Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log | Foreach-Object {sudo chmod +rwx $_.fullname}
+          Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log | Foreach-Object {sudo chown ${env:USER} $_.fullname}
           Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log
           Get-ChildItem -Path .\siteContents\records\* -Include thumbsup.db, thumbsup.log | Remove-Item -Verbose
       - name: Setup Pages
