@@ -41,6 +41,7 @@ jobs:
           docker run --tty --volume "${env:GITHUB_WORKSPACE}:/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config ./thumbsup_config.json
       - name: Cleanup some thumbsup files
         run: |
+          ## some files useful to thumbsup if this gallery output was persistent, but not since this is ephemeral (artifact gets uploaded, runner gets killed); so, clean 'em up
           sudo rm --verbose ./siteContents/records/thumbsup.db ./siteContents/records/thumbsup.log
       - name: Setup Pages
         uses: actions/configure-pages@v3
