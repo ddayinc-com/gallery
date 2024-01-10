@@ -34,23 +34,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo from branch '${{github.ref_name}}'
-        uses: actions/checkout@v3
-      - name: Generate thumbsup static gallery
+        uses: actions/checkout@main
+      - name: Generate thumbsup static galleries
         run: |
           ## ${env:GITHUB_WORKSPACE} should be the current working directory after the 'checkout' Action runs (and is the root of the checked-out repo); src/ subfolder will become the working directory for the container command
-          docker run --tty --volume "${env:GITHUB_WORKSPACE}:/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config ./thumbsup_config.json
+          Write-Output thumbsup_config-records.json thumbsup_config-stash.json | ForEach-Object {docker run --tty --volume "${env:GITHUB_WORKSPACE}:/work" --workdir /work/src ghcr.io/thumbsup/thumbsup thumbsup --config $_}
+      # - name: Create index page for gallery 'sites' / sections
+      #   run: |
+      #     ## create an index for the gallery subfolders, so /gallery/ returns something useful
       - name: Cleanup some thumbsup files
         run: |
-          Write-Verbose -Verbose "thumbsup.log info: `n$(Get-Content ./siteContents/records/thumbsup.log)"
+          Add-Content -Path ${env:GITHUB_STEP_SUMMARY} -Value '# 🧾 Log output from `thumbsup` runs', 'The deets from the `thumbsup` log file:', '```', (Get-Content -Raw ./siteContents/records/thumbsup.log), '```'
           ## some files useful to thumbsup if this gallery output was persistent, but not since this is ephemeral (artifact gets uploaded, runner gets killed); so, clean 'em up
           sudo rm --verbose ./siteContents/records/thumbsup.db ./siteContents/records/thumbsup.log
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@main
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@main
         with:
           ## path to upload
           path: './siteContents'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@main

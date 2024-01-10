@@ -1,0 +1,12 @@
+{
+    "input": "./stashImages/",
+    "theme-path": "./thumbsuptheme-cards_mtb",
+    "output": "../siteContents/stash",
+    "photo-download": "copy",
+    "sort-albums-by": "title",
+    "sort-media-by": "filename",
+    "album-previews": "random",
+    "thumb-size": "256",
+    "small-size": "480",
+    "title": "Stash Contest of 2007"
+}
