@@ -44,9 +44,13 @@ jobs:
       #     ## create an index for the gallery subfolders, so /gallery/ returns something useful
       - name: Cleanup some thumbsup files
         run: |
-          Add-Content -Path ${env:GITHUB_STEP_SUMMARY} -Value '# 🧾 Log output from `thumbsup` runs', 'The deets from the `thumbsup` log file:', '```', (Get-Content -Raw ./siteContents/records/thumbsup.log), '```'
-          ## some files useful to thumbsup if this gallery output was persistent, but not since this is ephemeral (artifact gets uploaded, runner gets killed); so, clean 'em up
-          sudo rm --verbose ./siteContents/records/thumbsup.db ./siteContents/records/thumbsup.log
+          ## write a bit of goodness to the GHA job summary
+          Add-Content -Path ${env:GITHUB_STEP_SUMMARY} -Value '# 🧾 Log output from `thumbsup` runs'
+          Get-ChildItem -Recurse -Path ${env:GITHUB_WORKSPACE} -File -Filter thumbsup.log | ForEach-Object {
+            Add-Content -Path ${env:GITHUB_STEP_SUMMARY} -Value ('The deets from the `thumbsup` log file in '{0}':' -f (Split-Path -Leaf $_.PSParentPath)), '```', (Get-Content -Raw $_.FullName), '```'
+          }
+          ## some files useful to thumbsup if this gallery output was persistent, but not since this is ephemeral (artifact gets uploaded, runner gets killed); so, clean 'em up; the '-o' is 'or'
+          sudo find . -type f -name thumbsup.db -o -name thumbsup.log -delete
       - name: Setup Pages
         uses: actions/configure-pages@main
       - name: Upload Pages artifact
